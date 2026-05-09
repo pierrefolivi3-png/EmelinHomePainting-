@@ -12,30 +12,31 @@
   
   <link rel="stylesheet" href="Emelin.css">
 </head>
-<script src="Emelin.js"></script>
 <body>
 
 <header>
 <!-- Ajouter votre logo ici -->
-  <img src="images/EMELIN HOUSE DESIGN-06.jpg.jpeg" alt="EMELIN Logo" class="logo">
+  <img src="images/EMELIN HOUSE DESIGN-06.jpg.jpeg" alt="EMELIN HOUSE PAINTING - Logo de l'entreprise de peinture au Togo" class="logo">
   <h1>EMELIN HOME PAINTING</h1>
   <p>Donnez vie à vos murs avec des experts</p>
 </header>
 
-<nav>
-  <div class="hamburger">
+<nav role="navigation" aria-label="Menu principal">
+  <button class="hamburger" aria-label="Menu" aria-expanded="false">
     <span></span>
     <span></span>
     <span></span>
-  </div>
+  </button>
   <div class="nav-links">
-    <a href="#">Accueil</a>
+    <a href="#accueil">Accueil</a>
     <a href="#services">Services</a>
     <a href="#gallery">Galerie</a>
     <a href="#about">À propos</a>
     <a href="#contact">Contact</a>
   </div>
 </nav>
+
+<main>
 
 <section class="hero">
   <div class="hero-content animate-fade-in-left">
@@ -45,7 +46,7 @@
   ☎ WhatsApp
 </a>
   </div>
-  <img src="images/home1.jpeg" alt="Peinture professionnelle" class="animate-fade-in-right animate-parallax">
+    <img src="images/Home1.jpeg" alt="Peinture professionnelle EMELIN - Intérieur peint en blanc" class="animate-fade-in-right animate-parallax" loading="lazy">
 
 </section>
 
@@ -63,14 +64,14 @@
 <section id="gallery" class="section animate-fade-in">
   <h2 class="animate-slide-in-top">Nos Réalisations</h2>
   <div class="gallery">
-    <img src="images/decograf2.jpeg" alt="Réalisation 1" class="animate-fade-in">
-    <img src="images/decograf4.jpeg" alt="Réalisation 2" class="animate-fade-in">
-    <img src="images/grafi3.jpeg" alt="Réalisation 3" class="animate-fade-in">
-    <img src="images/decograf1.jpeg" alt="Réalisation 4" class="animate-fade-in">
-    <img src="images/decograf5.jpeg" alt="Réalisation 5" class="animate-fade-in">
-    <img src="images/tyro2.jpeg" alt="Réalisation 6" class="animate-fade-in">
-    <img src="images/grafi2.jpeg" alt="Réalisation 7" class="animate-fade-in">
-    <img src="images/grafi1.jpeg" alt="Réalisation 8" class="animate-fade-in">
+    <img src="images/Decograf2.jpeg" alt="Décoration murale grise et blanche - Réalisation EMELIN" class="animate-fade-in" loading="lazy">
+    <img src="images/Decograf4.jpeg" alt="Enduit décoratif blanc - Projet peinture EMELIN" class="animate-fade-in" loading="lazy">
+    <img src="images/Grafi3.jpeg" alt="Graffiato moderne texture - Travail peinture EMELIN" class="animate-fade-in" loading="lazy">
+    <img src="images/Decograf1.jpeg" alt="Décoration murale design - Maison EMELIN" class="animate-fade-in" loading="lazy">
+    <img src="images/Decograf5.jpeg" alt="Peinture tyrolienne grise - Chantier EMELIN" class="animate-fade-in" loading="lazy">
+    <img src="images/Tyro2.jpeg" alt="Enduit tyrolien texture - Projet EMELIN" class="animate-fade-in" loading="lazy">
+    <img src="images/Grafi2.jpeg" alt="Graffiato décoratif - Réalisation EMELIN" class="animate-fade-in" loading="lazy">
+    <img src="images/Grafi1.jpeg" alt="Peinture décorative moderne - EMELIN Togo" class="animate-fade-in" loading="lazy">
   </div>
 </section>
 
@@ -82,23 +83,23 @@
 <section id="video" class="section animate-fade-in">
   <h2 class="animate-slide-in-top">Découvrez Notre Travail</h2>
   <div class="videos-gallery">
-    <div class="video-item animate-scale-in">
-      <video autoplay muted loop playsinline>
+    <div class="video-item animate-scale-in" data-video="videos/Deodeco.mp4" data-title="Enduit et Décoration">
+      <video autoplay muted loop playsinline controls preload="metadata">
         <source src="videos/Deodeco.mp4" type="video/mp4">
         Votre navigateur ne supporte pas la lecture vidéo.
       </video>
       <p>Enduit et Décoration</p>
     </div>
-    <div class="video-item animate-scale-in">
-      <video autoplay muted loop playsinline>
+    <div class="video-item animate-scale-in" data-video="videos/Deodeco2.mp4" data-title="Peinture Tyrolienne">
+      <video autoplay muted loop playsinline controls preload="metadata">
         <source src="videos/Deodeco2.mp4" type="video/mp4">
         Votre navigateur ne supporte pas la lecture vidéo.
       </video>
       <p>Peinture Tyrolienne</p>
     </div>
-    <div class="video-item animate-scale-in">
-      <video autoplay muted loop playsinline>
-        <source src="video/Deodeco3.mp4" type="video/mp4">
+    <div class="video-item animate-scale-in" data-video="videos/Deodeco3.mp4" data-title="Graffiato Moderne">
+      <video autoplay muted loop playsinline controls preload="metadata">
+        <source src="videos/Deodeco3.mp4" type="video/mp4">
         Votre navigateur ne supporte pas la lecture vidéo.
       </video>
       <p>Graffiato Moderne</p>
@@ -234,6 +235,8 @@
   </div>
 </section>
 
+</main>
+
 <footer>
   <p>&copy; 2026 EMELIN HOME PAINTING</p>
 </footer>
@@ -252,6 +255,23 @@
   </div>
 </div>
 
+<!-- Video Lightbox -->
+<div id="video-lightbox" class="video-lightbox">
+  <div class="video-lightbox-content">
+    <span class="video-lightbox-close">&times;</span>
+    <h3 id="video-title"></h3>
+    <video id="lightbox-video" controls>
+      <source src="" type="video/mp4">
+      Votre navigateur ne supporte pas la lecture vidéo.
+    </video>
+    <div class="video-lightbox-nav">
+      <button class="video-lightbox-prev">&#10094; Vidéo précédente</button>
+      <button class="video-lightbox-next">Vidéo suivante &#10095;</button>
+    </div>
+  </div>
+</div>
+
+<script src="Emelin.js"></script>
 </body>
 
 </html>
