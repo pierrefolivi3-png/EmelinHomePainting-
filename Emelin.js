@@ -1,11 +1,16 @@
-// Menu hamburger functionality
+// Main Application - All functionality combined in single DOMContentLoaded
 document.addEventListener('DOMContentLoaded', function() {
+  
+  // Menu hamburger functionality
   const hamburger = document.querySelector('.hamburger');
   const navLinks = document.querySelector('.nav-links');
   
   hamburger.addEventListener('click', function() {
     hamburger.classList.toggle('active');
     navLinks.classList.toggle('active');
+    // Mettre à jour l'attribut ARIA
+    const isActive = hamburger.classList.contains('active');
+    hamburger.setAttribute('aria-expanded', isActive);
   });
   
   // Close menu when clicking on a link
@@ -23,10 +28,8 @@ document.addEventListener('DOMContentLoaded', function() {
       navLinks.classList.remove('active');
     }
   });
-});
 
-// Lightbox functionality
-document.addEventListener('DOMContentLoaded', function() {
+  // Lightbox functionality
   const lightbox = document.getElementById('lightbox');
   const lightboxImage = document.getElementById('lightbox-image');
   const lightboxClose = document.querySelector('.lightbox-close');
@@ -60,7 +63,7 @@ document.addEventListener('DOMContentLoaded', function() {
   // Close lightbox when clicking on close button
   lightboxClose.addEventListener('click', closeLightbox);
   
-  // Close lightbox when clicking outside the image
+  // Close lightbox when clicking outside image
   lightbox.addEventListener('click', function(event) {
     if (event.target === lightbox) {
       closeLightbox();
@@ -81,20 +84,7 @@ document.addEventListener('DOMContentLoaded', function() {
     lightboxImage.alt = galleryImages[currentImageIndex].alt;
   });
   
-  // Keyboard navigation
-  document.addEventListener('keydown', function(event) {
-    if (lightbox.style.display === 'block') {
-      if (event.key === 'Escape') {
-        closeLightbox();
-      } else if (event.key === 'ArrowLeft') {
-        lightboxPrev.click();
-      } else if (event.key === 'ArrowRight') {
-        lightboxNext.click();
-      }
-    }
-  });
-  
-  // Touch gestures for mobile
+  // Touch gestures for mobile images
   let touchStartX = 0;
   let touchEndX = 0;
   
@@ -121,10 +111,8 @@ document.addEventListener('DOMContentLoaded', function() {
       }
     }
   }
-});
 
-// Devis Form Functionality
-document.addEventListener('DOMContentLoaded', function() {
+  // Devis Form Functionality
   const devisForm = document.getElementById('devisForm');
   const surfaceInput = document.getElementById('surface');
   const servicesCheckboxes = document.querySelectorAll('input[name="services"]');
@@ -287,13 +275,13 @@ document.addEventListener('DOMContentLoaded', function() {
     // Afficher un message de chargement
     const submitBtn = devisForm.querySelector('.btn-submit');
     const originalText = submitBtn.innerHTML;
-    submitBtn.innerHTML = '📤 Envoi en cours...';
+    submitBtn.innerHTML = ' Envoi en cours...';
     submitBtn.disabled = true;
     
     // Simulation d'envoi (remplacer par votre appel API réel)
     setTimeout(() => {
       // Message de succès
-      showMessage('✅ Votre demande de devis a été envoyée avec succès ! Nous vous contacterons dans les plus brefs délais.', 'success');
+      showMessage(' Votre demande de devis a été envoyée avec succès ! Nous vous contacterons dans les plus brefs délais.', 'success');
       
       // Réinitialiser le formulaire
       devisForm.reset();
@@ -324,10 +312,109 @@ document.addEventListener('DOMContentLoaded', function() {
   
   // Initialisation
   calculerBudget();
-});
 
-// Advanced Scroll Animations
-document.addEventListener('DOMContentLoaded', function() {
+  // Video Lightbox Functionality
+  const videoLightbox = document.getElementById('video-lightbox');
+  const lightboxVideo = document.getElementById('lightbox-video');
+  const videoTitle = document.getElementById('video-title');
+  const videoLightboxClose = document.querySelector('.video-lightbox-close');
+  const videoLightboxPrev = document.querySelector('.video-lightbox-prev');
+  const videoLightboxNext = document.querySelector('.video-lightbox-next');
+  const videoItems = document.querySelectorAll('.video-item');
+  let currentVideoIndex = 0;
+  
+  // Open video lightbox when clicking on video items
+  videoItems.forEach((item, index) => {
+    item.addEventListener('click', function() {
+      currentVideoIndex = index;
+      openVideoLightbox(this);
+    });
+  });
+  
+  // Open video lightbox function
+  function openVideoLightbox(item) {
+    const videoSrc = item.getAttribute('data-video');
+    const title = item.getAttribute('data-title');
+    
+    videoLightbox.style.display = 'block';
+    lightboxVideo.src = videoSrc;
+    videoTitle.textContent = title;
+    document.body.style.overflow = 'hidden';
+    
+    // Play video
+    setTimeout(() => {
+      lightboxVideo.play();
+    }, 300);
+  }
+  
+  // Close video lightbox function
+  function closeVideoLightbox() {
+    videoLightbox.style.display = 'none';
+    lightboxVideo.pause();
+    lightboxVideo.currentTime = 0;
+    document.body.style.overflow = 'auto';
+  }
+  
+  // Close lightbox when clicking on close button
+  videoLightboxClose.addEventListener('click', closeVideoLightbox);
+  
+  // Close lightbox when clicking outside video
+  videoLightbox.addEventListener('click', function(event) {
+    if (event.target === videoLightbox) {
+      closeVideoLightbox();
+    }
+  });
+  
+  // Navigate to previous video
+  videoLightboxPrev.addEventListener('click', function() {
+    currentVideoIndex = (currentVideoIndex - 1 + videoItems.length) % videoItems.length;
+    const prevItem = videoItems[currentVideoIndex];
+    openVideoLightbox(prevItem);
+  });
+  
+  // Navigate to next video
+  videoLightboxNext.addEventListener('click', function() {
+    currentVideoIndex = (currentVideoIndex + 1) % videoItems.length;
+    const nextItem = videoItems[currentVideoIndex];
+    openVideoLightbox(nextItem);
+  });
+  
+  // Touch gestures for mobile video navigation
+  let videoTouchStartX = 0;
+  let videoTouchEndX = 0;
+  
+  lightboxVideo.addEventListener('touchstart', function(event) {
+    videoTouchStartX = event.changedTouches[0].screenX;
+  });
+  
+  lightboxVideo.addEventListener('touchend', function(event) {
+    videoTouchEndX = event.changedTouches[0].screenX;
+    handleVideoSwipe();
+  });
+  
+  function handleVideoSwipe() {
+    const swipeThreshold = 50;
+    const diff = videoTouchStartX - videoTouchEndX;
+    
+    if (Math.abs(diff) > swipeThreshold) {
+      if (diff > 0) {
+        // Swipe left - next video
+        videoLightboxNext.click();
+      } else {
+        // Swipe right - previous video
+        videoLightboxPrev.click();
+      }
+    }
+  }
+  
+  // Auto-advance to next video when current video ends
+  lightboxVideo.addEventListener('ended', function() {
+    if (currentVideoIndex < videoItems.length - 1) {
+      videoLightboxNext.click();
+    }
+  });
+
+  // Advanced Scroll Animations
   const animatedElements = document.querySelectorAll('.animate-fade-in, .animate-fade-in-left, .animate-fade-in-right, .animate-slide-in-top, .animate-slide-in-bottom, .animate-scale-in, .animate-bounce-in');
   const parallaxElements = document.querySelectorAll('.animate-parallax');
   
@@ -488,14 +575,27 @@ document.addEventListener('DOMContentLoaded', function() {
       });
     }, 250);
   });
-});
 
-// Animation simple au scroll (conservé pour compatibilité)
-window.addEventListener("scroll", () => {
-  document.querySelectorAll(".card").forEach(card => {
-    if (card.getBoundingClientRect().top < window.innerHeight) {
-      card.style.opacity = "1";
-      card.style.transform = "translateY(0)";
+  // Keyboard navigation for both lightboxes
+  document.addEventListener('keydown', function(event) {
+    if (lightbox.style.display === 'block') {
+      if (event.key === 'Escape') {
+        closeLightbox();
+      } else if (event.key === 'ArrowLeft') {
+        lightboxPrev.click();
+      } else if (event.key === 'ArrowRight') {
+        lightboxNext.click();
+      }
+    }
+    
+    if (videoLightbox.style.display === 'block') {
+      if (event.key === 'Escape') {
+        closeVideoLightbox();
+      } else if (event.key === 'ArrowLeft') {
+        videoLightboxPrev.click();
+      } else if (event.key === 'ArrowRight') {
+        videoLightboxNext.click();
+      }
     }
   });
 });
